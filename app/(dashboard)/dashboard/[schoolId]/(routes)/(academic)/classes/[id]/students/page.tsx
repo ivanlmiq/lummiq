@@ -1,0 +1,50 @@
+import React from "react";
+import { School } from "lucide-react";
+import { MODULES } from "@/lib/constants";
+import { ListHeader } from "@/components/list-page-header/header";
+import { getStudentsByClass } from "@/service/schemas/get-students";
+import { StudentCard } from "@/components/ui/custom/student/student-card";
+import { EmptyState } from "@/components/ui/custom/empty-state";
+
+export default async function Page({
+    params,
+}: {
+    params: {
+        id: string;
+        schoolId: string;
+    };
+}) {
+    const data = await getStudentsByClass(params.id, params.schoolId);
+
+    if (!data) {
+        return <p>Class not found</p>;
+    }
+
+    return (
+        <>
+            <div className="space-y-2">
+                <figure className="rounded-lg bg-primary inline-flex p-2 text-white">
+                    <School size={18} />
+                </figure>
+                <ListHeader
+                    module={MODULES.CLASSES}
+                    lastAction={`Students ${data.name}`}
+                />
+            </div>
+
+            {data.students.length === 0 ? (
+                <EmptyState
+                    module={MODULES.STUDENTS}
+                    customDescription="You haven't added students to this grade."
+                    hideAction
+                />
+            ) : (
+                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2">
+                    {data.students.map((student) => (
+                        <StudentCard key={student.id} student={student} />
+                    ))}
+                </section>
+            )}
+        </>
+    );
+}
