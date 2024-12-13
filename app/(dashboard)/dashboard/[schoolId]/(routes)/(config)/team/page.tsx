@@ -10,10 +10,10 @@ import {
 export default async function Page({
     params,
 }: {
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
+    const { schoolId } = await params;
+
     return (
         <>
             <Card>
@@ -23,7 +23,7 @@ export default async function Page({
                         Manage your team members and their permissions.
                     </CardDescription>
                 </CardHeader>
-                <CardContent>{params.schoolId}</CardContent>
+                <CardContent>{schoolId}</CardContent>
             </Card>
         </>
     );

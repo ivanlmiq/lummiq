@@ -10,10 +10,11 @@ import {
 import { SchoolForm } from "@/components/features/school/form";
 
 export default async function page({
-    params: { schoolId },
+    params,
 }: {
-    params: PageParams;
+    params: Promise<PageParams>;
 }) {
+    const { schoolId } = await params;
     const data = await prisma.school.findUnique({
         where: { id: schoolId },
     });

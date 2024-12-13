@@ -64,10 +64,10 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         session: ({ session, token }) => {
             if (token) {
-                session.user.id = token.id;
+                session.user.id = token.id as string;
                 session.user.name = token.name as string;
                 session.user.email = token.email as string;
-                session.user.role = token.role;
+                session.user.role = token.role as TeacherRole;
                 session.user.photo = token.image as string;
                 session.user.schoolId = token.schoolId as string;
             }

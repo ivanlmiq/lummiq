@@ -8,11 +8,10 @@ import { getParents } from "@/service/schemas/get-parents";
 export default async function Page({
     params,
 }: {
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
-    const data = await getParents(params.schoolId);
+    const { schoolId } = await params;
+    const data = await getParents(schoolId);
 
     return (
         <>
@@ -21,7 +20,7 @@ export default async function Page({
             {data.length === 0 ? (
                 <EmptyState module={MODULES.PARENTS} />
             ) : (
-                <ParentView data={data} schoolId={params.schoolId} />
+                <ParentView data={data} schoolId={schoolId} />
             )}
         </>
     );

@@ -8,11 +8,10 @@ import { getExams } from "@/service/schemas/get-exams";
 export default async function Page({
     params,
 }: {
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
-    const data = await getExams(params.schoolId);
+    const { schoolId } = await params;
+    const data = await getExams(schoolId);
 
     return (
         <>
@@ -21,7 +20,7 @@ export default async function Page({
             {data.length === 0 ? (
                 <EmptyState module={MODULES.EXAMS} />
             ) : (
-                <ExamView data={data} schoolId={params.schoolId} />
+                <ExamView data={data} schoolId={schoolId} />
             )}
         </>
     );

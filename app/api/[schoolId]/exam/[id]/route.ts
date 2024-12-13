@@ -3,19 +3,17 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
 import type { Exam } from "@prisma/client";
-import type { GenericApiParamsWithId } from "@/types/api";
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ENV = process.env.NEXT_ENV || "development";
 
 export async function GET(
     req: Request,
-    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
+    { params }: { params: Promise<PageParamsById> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
+
+        const { id, schoolId } = await params;
 
         if (!id)
             return new NextResponse("Exam id is required", {
@@ -39,13 +37,14 @@ export async function GET(
 
 export async function PATCH(
     req: Request,
-    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
+    { params }: { params: Promise<PageParamsById> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
+        const { id, schoolId } = await params;
         const { name, date, lessonId } = (await req.json()) as Exam;
 
         await genericValidator({

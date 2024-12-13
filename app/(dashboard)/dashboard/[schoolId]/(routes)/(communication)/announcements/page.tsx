@@ -9,13 +9,12 @@ import { ListHeader } from "@/components/list-page-header/header";
 export default async function Page({
     params,
 }: {
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
-    const data = params.schoolId
+    const { schoolId } = await params;
+    const data = schoolId
         ? await prisma.announcement.findMany({
-              where: { schoolId: params.schoolId },
+              where: { schoolId },
               orderBy: { createdAt: "desc" },
           })
         : [];

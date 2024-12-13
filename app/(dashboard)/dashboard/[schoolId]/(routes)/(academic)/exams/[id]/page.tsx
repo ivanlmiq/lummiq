@@ -5,10 +5,11 @@ import { ExamForm } from "@/components/features/exams/form";
 import { MODULES } from "@/lib/constants";
 
 export default async function Page({
-    params: { id, schoolId },
+    params,
 }: {
-    params: PageParams;
+    params: Promise<PageParamsById>;
 }) {
+    const { id, schoolId } = await params;
     const IS_NEW = id === "new";
     const data = IS_NEW
         ? null

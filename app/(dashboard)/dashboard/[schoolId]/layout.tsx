@@ -6,7 +6,6 @@ import { STATIC_ROUTES } from "@/lib/routeConfig";
 import { SidebarHeader } from "@/components/sidebar/sidebar-header";
 import { getAuthUser } from "@/service/get-auth.user";
 import { getPermissions } from "@/service/schemas/get-permissions";
-import type { Session } from "next-auth";
 import type { TeacherRole } from "@prisma/client";
 
 export default async function DashboardLayout({
@@ -14,32 +13,32 @@ export default async function DashboardLayout({
     params,
 }: {
     children: React.ReactNode;
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
-    const { cookies } = await import("next/headers");
-    const session = (await auth()) as Session | null;
+    const session = await auth();
     if (!session?.user) redirect(STATIC_ROUTES.signin);
+
+    const { cookies } = await import("next/headers");
+
+    const { schoolId } = await params;
 
     const authUser = session?.user.id
         ? await getAuthUser(session?.user.id)
         : null;
 
     const permissions = await getPermissions({
-        schoolId: params.schoolId,
+        schoolId,
         role: authUser?.role as TeacherRole,
         teacherId: authUser?.id as string,
     });
 
-    console.log("session", session);
+    const defaultOpen =
+        (await (await cookies()).get("sidebar:state")?.value) === "true";
 
     return (
-        <SidebarLayout
-            defaultOpen={cookies().get("sidebar:state")?.value === "true"}
-        >
+        <SidebarLayout defaultOpen={defaultOpen}>
             <AppSidebar
-                schoolId={params.schoolId}
+                schoolId={schoolId}
                 user={session?.user}
                 authUser={authUser}
                 permissions={permissions}

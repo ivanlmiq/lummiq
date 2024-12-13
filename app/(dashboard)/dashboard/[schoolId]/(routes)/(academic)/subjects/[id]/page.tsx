@@ -5,10 +5,11 @@ import { MODULES } from "@/lib/constants";
 import { getSubject } from "@/service/schemas/get-subjects";
 
 export default async function Page({
-    params: { id, schoolId },
+    params,
 }: {
-    params: PageParams;
+    params: Promise<PageParamsById>;
 }) {
+    const { id, schoolId } = await params;
     const IS_NEW = id === "new";
     const data = IS_NEW ? null : await getSubject(id, schoolId);
 

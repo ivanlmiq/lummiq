@@ -6,13 +6,14 @@ import type { Exam } from "@prisma/client";
 
 export async function POST(
     req: Request,
-    { params: { schoolId } }: { params: { schoolId: string } }
+    { params }: { params: Promise<PageParams> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
+        const { schoolId } = await params;
         const { name, date, lessonId } = (await req.json()) as Exam;
 
         await genericValidator({

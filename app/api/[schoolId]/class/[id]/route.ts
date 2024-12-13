@@ -4,25 +4,24 @@ import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
 import type { Class } from "@prisma/client";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ENV = process.env.NEXT_ENV || "development";
-
 export async function GET(
     req: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<PageParamsById> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        if (!params.id)
+        const { id, schoolId } = await params;
+
+        if (!id)
             return new NextResponse("Class id is required", {
                 status: 400,
             });
 
         const data: Class | null = await prisma.class.findUnique({
-            where: { id: params.id },
+            where: { id, schoolId },
             include: {},
         });
 
@@ -38,21 +37,23 @@ export async function GET(
 
 export async function DELETE(
     req: Request,
-    { params }: { params: { id: string; schoolId: string } }
+    { params }: { params: Promise<PageParamsById> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        if (!params.id)
+        const { id, schoolId } = await params;
+
+        if (!id)
             return new NextResponse("Class id is required", {
                 status: 400,
             });
 
         const schoolByUserId = await prisma.school.findFirst({
             where: {
-                id: params.id,
+                id,
                 userId: session?.user.id,
             },
         });
@@ -61,7 +62,7 @@ export async function DELETE(
             return new NextResponse("Unauthorized", { status: 405 });
 
         const data = await prisma.class.delete({
-            where: { id: params.id, schoolId: params.schoolId },
+            where: { id, schoolId },
         });
 
         return NextResponse.json({
@@ -76,18 +77,19 @@ export async function DELETE(
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { id: string; schoolId: string } }
+    { params }: { params: Promise<PageParamsById> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
+        const { id, schoolId } = await params;
         const { name, capacity, gradeId } = (await req.json()) as Class;
 
         await genericValidator({
             session,
-            schoolId: params.schoolId,
+            schoolId,
             data: [
                 { value: name, message: "Name is required", status: 400 },
                 {
@@ -96,7 +98,7 @@ export async function PATCH(
                     status: 400,
                 },
                 {
-                    value: params.id,
+                    value: id,
                     message: "School Id is required",
                     status: 400,
                 },
@@ -104,7 +106,7 @@ export async function PATCH(
         });
 
         const data = await prisma.class.update({
-            where: { id: params.id },
+            where: { id, schoolId },
             data: { name, capacity, gradeId },
         });
 
