@@ -7,12 +7,10 @@ import { ListHeader } from "@/components/list-page-header/header";
 export default async function Page({
     params,
 }: {
-    params: {
-        id: string;
-        schoolId: string;
-    };
+    params: Promise<PageParamsById>;
 }) {
-    const student = await getStudentWithScores(params.id, params.schoolId);
+    const { id, schoolId } = await params;
+    const student = await getStudentWithScores(id, schoolId);
 
     if (!student) {
         return <p>Student not found</p>;

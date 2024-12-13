@@ -132,14 +132,10 @@ export const useModule = ({
     };
 
     const allowedToEdit = isEdit
-        ? checkPermission("UPDATE", pluralModuleName, user?.role as TeacherRole)
-        : checkPermission("CREATE", pluralModuleName, user?.role as TeacherRole);
+        ? checkPermission("UPDATE", pluralModuleName)
+        : checkPermission("CREATE", pluralModuleName);
 
-    const allowToDelete = checkPermission(
-        "DELETE",
-        module,
-        user?.role as TeacherRole
-    );
+    const allowToDelete = checkPermission("DELETE", module);
 
     return {
         ...state,

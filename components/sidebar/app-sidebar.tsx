@@ -62,10 +62,14 @@ export function AppSidebar({ user, authUser, permissions, schoolId }: Props) {
                         schoolId={schoolId}
                     />
                 </SidebarItem>
-                <SidebarItem>
-                    <SidebarLabel>Quick Actions</SidebarLabel>
-                    <NavProjects projects={data.projects} />
-                </SidebarItem>
+
+                {data.projects?.length > 0 && (
+                    <SidebarItem>
+                        <SidebarLabel>Quick Actions</SidebarLabel>
+                        <NavProjects projects={data.projects} />
+                    </SidebarItem>
+                )}
+
                 <SidebarItem className="mt-auto">
                     <SidebarLabel>Help</SidebarLabel>
                     <NavSecondary items={data.navSecondary} />

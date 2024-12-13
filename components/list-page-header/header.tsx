@@ -19,20 +19,15 @@ import { STATIC_ROUTES } from "@/lib/routeConfig";
 import { UploadDrawer } from "../ui/custom/upload/upload-drawer";
 import { MODULES } from "@/lib/constants";
 import { useGlobalStore } from "@/store/global.store";
-import type { TeacherRole } from "@prisma/client";
 
 type Props = { module: string; lastAction?: string };
 
 export const ListHeader = ({ module, lastAction }: Props) => {
     const params = useParams();
-    const { user, checkPermission } = useGlobalStore((state) => state);
+    const { checkPermission } = useGlobalStore((state) => state);
     const schoolId = String(params?.schoolId);
 
-    const allowedToCreate = checkPermission(
-        "CREATE",
-        module,
-        user?.role as TeacherRole
-    );
+    const allowedToCreate = checkPermission("CREATE", module);
 
     return (
         <nav className="flex items-center justify-between">

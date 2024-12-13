@@ -14,11 +14,7 @@ export type GlobalStoreState = {
         schoolId: School["id"],
         school: Pick<School, "id" | "name">
     ) => void;
-    checkPermission: (
-        action: Action,
-        schema: string,
-        role: TeacherRole
-    ) => boolean;
+    checkPermission: (action: Action, schema: string) => boolean;
 };
 
 export const useGlobalStore = create<GlobalStoreState>((set, get) => ({
@@ -29,10 +25,9 @@ export const useGlobalStore = create<GlobalStoreState>((set, get) => ({
     permissions: [],
     setTheme: (theme) => set({ theme }),
     setSchool: (schoolId, school) => set({ schoolId, school }),
-    checkPermission: (action, schema, role) => {
+    checkPermission: (action, schema) => {
         const permissions = get().permissions;
-
-        console.log("permissions", permissions);
+        const role = get().user?.role as TeacherRole;
 
         if (!permissions.length) return false;
 

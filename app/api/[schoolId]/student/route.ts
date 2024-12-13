@@ -4,17 +4,17 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
 import type { Student } from "@prisma/client";
-import type { GenericApiParams } from "@/types/api";
 
 export async function POST(
     req: Request,
-    { params: { schoolId } }: { params: GenericApiParams }
+    { params }: { params: Promise<PageParams> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
+        const { schoolId } = await params;
         const { name, email, genre, pin, phone, password, classId, ...rest } =
             (await req.json()) as Student;
 

@@ -8,11 +8,10 @@ import { getSubjects } from "@/service/schemas/get-subjects";
 export default async function Page({
     params,
 }: {
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
-    const data = await getSubjects(params.schoolId);
+    const { schoolId } = await params;
+    const data = await getSubjects(schoolId);
 
     return (
         <>
@@ -21,7 +20,7 @@ export default async function Page({
             {data.length === 0 ? (
                 <EmptyState module={MODULES.SUBJECTS} />
             ) : (
-                <SubjectView data={data} schoolId={params.schoolId} />
+                <SubjectView data={data} schoolId={schoolId} />
             )}
         </>
     );

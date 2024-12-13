@@ -8,11 +8,10 @@ import { getClasses } from "@/service/schemas/get-classes";
 export default async function Page({
     params,
 }: {
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
-    const data = await getClasses(params.schoolId);
+    const { schoolId } = await params;
+    const data = await getClasses(schoolId);
 
     return (
         <>
@@ -21,7 +20,7 @@ export default async function Page({
             {data.length === 0 ? (
                 <EmptyState module={MODULES.CLASSES} />
             ) : (
-                <ClassView data={data} schoolId={params.schoolId} />
+                <ClassView data={data} schoolId={schoolId} />
             )}
         </>
     );
