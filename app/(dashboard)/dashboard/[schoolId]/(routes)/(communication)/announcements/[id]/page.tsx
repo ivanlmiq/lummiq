@@ -5,7 +5,11 @@ import { ListHeader } from "@/components/list-page-header/header";
 import { AnnouncementForm } from "@/components/features/announcement/form";
 import { GENERIC_DATE_FORMAT, MODULES } from "@/lib/constants";
 
-export default async function Page({ params }: { params: PageParamsById }) {
+export default async function Page({
+    params,
+}: {
+    params: Promise<PageParamsById>;
+}) {
     const { id, schoolId } = await params;
     const IS_NEW = id === "new";
     const data = IS_NEW

@@ -8,6 +8,10 @@ declare global {
         schoolId: string;
     }
 
+    interface QueryPageParams {
+        query?: string;
+    }
+
     interface SessionUser {
         id: string;
         name: string;

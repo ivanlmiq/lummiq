@@ -9,12 +9,10 @@ export default async function Page({
     searchParams,
 }: {
     params: Promise<PageParams>;
-    searchParams: {
-        query?: string;
-    };
+    searchParams: Promise<QueryPageParams>;
 }) {
     const { schoolId } = await params;
-    const { query } = searchParams;
+    const { query } = await searchParams;
 
     const data = schoolId
         ? (

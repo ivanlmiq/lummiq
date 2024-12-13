@@ -3,16 +3,17 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
 import type { Teacher } from "@prisma/client";
-import type { GenericApiParamsWithId } from "@/types/api";
 
 export async function GET(
     req: Request,
-    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
+    { params }: { params: Promise<PageParamsById> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
+
+        const { id, schoolId } = await params;
 
         if (!id)
             return new NextResponse("Teacher id is required", {
@@ -36,12 +37,14 @@ export async function GET(
 
 export async function DELETE(
     req: Request,
-    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
+    { params }: { params: Promise<PageParamsById> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
+
+        const { id, schoolId } = await params;
 
         if (!id)
             return new NextResponse("Teacher id is required", {
@@ -75,13 +78,14 @@ export async function DELETE(
 
 export async function PATCH(
     req: Request,
-    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
+    { params }: { params: Promise<PageParamsById> }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
+        const { id, schoolId } = await params;
         const { name, email, password, phone, ...rest } =
             (await req.json()) as Teacher;
 
