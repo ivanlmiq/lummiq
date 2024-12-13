@@ -4,9 +4,6 @@ import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
 import type { Class } from "@prisma/client";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ENV = process.env.NEXT_ENV || "development";
-
 export async function GET(
     req: Request,
     { params }: { params: { id: string } }

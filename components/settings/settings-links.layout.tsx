@@ -23,11 +23,6 @@ export const SettingsLinksLayout = ({ schoolId }: { schoolId: string }) => {
                     {name}
                 </Link>
             ))}
-            {/* <Link href="#">Security</Link>
-                <Link href="#">Integrations</Link>
-                <Link href="#">Support</Link>
-                <Link href="#">Organizations</Link>
-                <Link href="#">Advanced</Link> */}
         </nav>
     );
 };

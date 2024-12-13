@@ -5,9 +5,6 @@ import { genericValidator } from "@/lib/api/generic_validator";
 import type { $Enums, Lesson } from "@prisma/client";
 import type { GenericApiParamsWithId } from "@/types/api";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ENV = process.env.NEXT_ENV || "development";
-
 export async function GET(
     req: Request,
     { params: { id, schoolId } }: { params: GenericApiParamsWithId }

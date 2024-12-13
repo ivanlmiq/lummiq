@@ -1,144 +1,49 @@
 import {
     LifeBuoy,
     Send,
-    Settings2,
-    Calendar,
-    GraduationCap,
     School,
     BadgeCheck,
     CreditCard,
     Bell,
 } from "lucide-react";
-import {
+import { useGlobalStore } from "@/store/global.store";
+import { TeacherRole } from "@prisma/client";
+import { getMainItems } from "@/config/routes.config";
+import { STATIC_ROUTES } from "@/lib/routeConfig";
+import type {
     SidebarItems,
     SidebarItemsWithIcon,
     SidebarProjectItems,
     SidebarTeams,
 } from "../types/types";
-import { useGlobalStore } from "@/store/global.store";
 
 export const useSidebar = ({ schoolId }: { schoolId: string }) => {
-    const { user } = useGlobalStore((state) => state);
-    const defaultRoute = `/dashboard/${schoolId}`;
+    const { user, checkPermission } = useGlobalStore((state) => state);
+    const defaultRoute = `${STATIC_ROUTES.dashboard}/${schoolId}`;
 
-    const NAV_MAIN_ITEMS: SidebarItems[] = [
-        {
-            title: "Users",
-            url: "#",
-            icon: GraduationCap,
-            isActive: true,
-            items: [
-                {
-                    title: "Students",
-                    url: `${defaultRoute}/students`,
-                },
-                {
-                    title: "Parents",
-                    url: `${defaultRoute}/parents`,
-                },
-                {
-                    title: "Teachers",
-                    url: `${defaultRoute}/teachers`,
-                },
-            ],
-        },
-        {
-            title: "Academics",
-            url: "#",
-            icon: School,
-            items: [
-                {
-                    title: "Subjects",
-                    url: `${defaultRoute}/subjects`,
-                },
-                {
-                    title: "Lessons",
-                    url: `${defaultRoute}/lessons`,
-                },
-                {
-                    title: "Grades",
-                    url: `${defaultRoute}/grades`,
-                },
-                {
-                    title: "Classes",
-                    url: `${defaultRoute}/classes`,
-                },
-                {
-                    title: "Assignments",
-                    url: `${defaultRoute}/assignments`,
-                },
-                {
-                    title: "Exams",
-                    url: `${defaultRoute}/exams`,
-                },
-                {
-                    title: "Results",
-                    url: `${defaultRoute}/results`,
-                },
-                {
-                    title: "Attendance",
-                    url: `${defaultRoute}/attendance`,
-                },
-            ],
-        },
-        {
-            title: "Communication",
-            url: "#",
-            icon: Calendar,
-            items: [
-                {
-                    title: "Events",
-                    url: `${defaultRoute}/events`,
-                },
-                {
-                    title: "Announcements",
-                    url: `${defaultRoute}/announcements`,
-                },
-            ],
-        },
-        {
-            title: "Settings",
-            url: "#",
-            icon: Settings2,
-            items: [
-                {
-                    title: "General",
-                    url: `${defaultRoute}/schools`,
-                },
-                {
-                    title: "Team",
-                    url: `${defaultRoute}/team`,
-                },
-                {
-                    title: "Billing",
-                    url: `${defaultRoute}/billing`,
-                },
-                {
-                    title: "Security",
-                    url: `${defaultRoute}/security`,
-                },
-                {
-                    title: "Integrations",
-                    url: `${defaultRoute}/integrations`,
-                },
-            ],
-        },
-    ];
+    const allowedToCreateStudents = checkPermission("CREATE", "students");
+    const allowedToUpdateStudents = checkPermission("UPDATE", "students");
+    const allowedToCreateTeachers = checkPermission("CREATE", "teachers");
+
+    const NAV_MAIN_ITEMS: SidebarItems[] = getMainItems(
+        defaultRoute,
+        user?.role as TeacherRole
+    );
 
     const NAV_QUICK_ACTIONS_ITEMS: SidebarProjectItems[] = [
-        {
+        allowedToCreateStudents && {
             name: "Add Student",
             url: `${defaultRoute}/students/new`,
         },
-        {
+        allowedToCreateTeachers && {
             name: "Add Teacher",
             url: `${defaultRoute}/teachers/new`,
         },
-        {
+        allowedToUpdateStudents && {
             name: "Transfer Student",
-            url: `${defaultRoute}/students/new`,
+            url: `${defaultRoute}/students/transfer`,
         },
-    ];
+    ].filter(Boolean) as SidebarProjectItems[];
 
     const NAV_USER_LINKS: SidebarItemsWithIcon[] = [
         {

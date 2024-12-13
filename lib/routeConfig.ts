@@ -19,6 +19,11 @@ export const STATIC_ROUTES = {
     announcements: "/announcements",
     signin: "/login",
     signup: "/register",
+    // settings
+    schools: "/schools",
+    teams: "/teams",
+    integrations: "/integrations",
+    billing: "/billing",
 };
 
 export const STATIC_API_AREA = {

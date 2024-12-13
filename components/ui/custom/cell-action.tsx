@@ -32,7 +32,7 @@ export const CellAction = ({
     buttonVariant = "default",
 }: Props) => {
     const params = useParams();
-    const { user, checkPermission } = useGlobalStore((state) => state);
+    const { checkPermission } = useGlobalStore((state) => state);
     const schoolId = String(params?.schoolId);
     const moduleName = module.charAt(0).toUpperCase() + module.slice(1);
 
@@ -49,17 +49,8 @@ export const CellAction = ({
         toast.success(`${moduleName} ID copied to clipboard.`);
     };
 
-    const allowedToEdit = checkPermission(
-        "UPDATE",
-        module,
-        user?.role as TeacherRole
-    );
-
-    const allowToDelete = checkPermission(
-        "DELETE",
-        module,
-        user?.role as TeacherRole
-    );
+    const allowedToEdit = checkPermission("UPDATE", module);
+    const allowToDelete = checkPermission("DELETE", module);
 
     return (
         <div className="flex gap-0 justify-end w-full">
