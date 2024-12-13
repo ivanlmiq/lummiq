@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { globalEnv } from "./config/global.env";
 import { STATIC_ROUTES } from "./lib/routeConfig";
 import { TeacherRole } from "@prisma/client";
+import { notFound } from "next/navigation";
 
 const FORBIDDEN_ROUTES = new Map<TeacherRole, string[]>([
     ["PRINCIPAL", []],
@@ -55,7 +56,7 @@ export async function middleware(req: NextRequest) {
             [];
 
         if (validRoutes.some((validUrl) => url.pathname.startsWith(validUrl))) {
-            url.pathname = STATIC_ROUTES.unauthorized;
+            url.pathname = "/404";
             return NextResponse.redirect(url);
         }
     }

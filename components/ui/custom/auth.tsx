@@ -12,7 +12,7 @@ export default function Auth() {
 
             <div className="hidden bg-muted lg:block">
                 <Image
-                    src="https://ui.shadcn.com/placeholder.svg"
+                    src="https://images.unsplash.com/photo-1517164850305-99a3e65bb47e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="Image"
                     width="1920"
                     height="1080"
