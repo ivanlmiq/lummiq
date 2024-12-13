@@ -8,11 +8,10 @@ import { getLessons } from "@/service/schemas/get-lessons";
 export default async function Page({
     params,
 }: {
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
-    const data = await getLessons(params.schoolId);
+    const { schoolId } = await params;
+    const data = await getLessons(schoolId);
 
     return (
         <>
@@ -21,7 +20,7 @@ export default async function Page({
             {data.length === 0 ? (
                 <EmptyState module={MODULES.LESSONS} />
             ) : (
-                <LessonView data={data} schoolId={params.schoolId} />
+                <LessonView data={data} schoolId={schoolId} />
             )}
         </>
     );

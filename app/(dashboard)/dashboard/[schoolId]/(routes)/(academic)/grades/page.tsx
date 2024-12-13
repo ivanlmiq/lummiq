@@ -8,11 +8,10 @@ import { getGrades } from "@/service/schemas/get-grades";
 export default async function Page({
     params,
 }: {
-    params: {
-        schoolId: string;
-    };
+    params: Promise<PageParams>;
 }) {
-    const data = await getGrades(params.schoolId);
+    const { schoolId } = await params;
+    const data = await getGrades(schoolId);
 
     return (
         <>
@@ -21,7 +20,7 @@ export default async function Page({
             {data.length === 0 ? (
                 <EmptyState module={MODULES.GRADES} />
             ) : (
-                <GradesView data={data} schoolId={params.schoolId} />
+                <GradesView data={data} schoolId={schoolId} />
             )}
         </>
     );

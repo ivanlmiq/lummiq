@@ -33,27 +33,30 @@ export async function middleware(req: NextRequest) {
         secret: globalEnv.NextAuthSecret,
     });
 
-    if (!token || url.pathname === "/sign-in" || url.pathname === "/sign-up")
-        return NextResponse.redirect(new URL(`/sign-in`, req.url));
+    if (
+        url.pathname === STATIC_ROUTES.login ||
+        url.pathname === STATIC_ROUTES.register
+    )
+        return NextResponse.redirect(new URL(STATIC_ROUTES.login, req.url));
 
     if (
         url.pathname === "/" ||
-        (url.pathname === "/site" && url.host === globalEnv.PublicDomain)
+        (url.pathname === STATIC_ROUTES.public &&
+            url.host === globalEnv.PublicDomain)
     )
-        return NextResponse.rewrite(new URL("/site", req.url));
+        return NextResponse.rewrite(new URL(STATIC_ROUTES.public, req.url));
 
-    const schoolId = token.schoolId;
-    const defaultRoute = `${STATIC_ROUTES.dashboard}/${schoolId}`;
+    if (token) {
+        const { role, schoolId } = token;
+        const defaultRoute = `${STATIC_ROUTES.dashboard}/${schoolId}`;
 
-    const validRoutes =
-        FORBIDDEN_ROUTES.get(token.role)?.map(
-            (url) => `${defaultRoute}${url}`
-        ) || [];
+        const validRoutes =
+            FORBIDDEN_ROUTES.get(role)?.map((url) => `${defaultRoute}${url}`) ||
+            [];
 
-    if (validRoutes.some((validUrl) => url.pathname.startsWith(validUrl))) {
-        url.pathname = "/unauthorized";
-        return NextResponse.redirect(url);
+        if (validRoutes.some((validUrl) => url.pathname.startsWith(validUrl))) {
+            url.pathname = STATIC_ROUTES.unauthorized;
+            return NextResponse.redirect(url);
+        }
     }
-
-    return NextResponse.next();
 }

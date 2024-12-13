@@ -9,12 +9,10 @@ import { EmptyState } from "@/components/ui/custom/empty-state";
 export default async function Page({
     params,
 }: {
-    params: {
-        id: string;
-        schoolId: string;
-    };
+    params: Promise<PageParamsById>;
 }) {
-    const data = await getStudentsByGrade(params.id, params.schoolId);
+    const { id, schoolId } = await params;
+    const data = await getStudentsByGrade(id, schoolId);
 
     if (!data) {
         return <p>Grade not found</p>;

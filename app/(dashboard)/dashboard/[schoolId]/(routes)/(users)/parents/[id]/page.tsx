@@ -6,10 +6,11 @@ import { getCustomFields } from "@/service/schemas/get-custom-fields";
 import { MODULES } from "@/lib/constants";
 
 export default async function Page({
-    params: { id, schoolId },
+    params,
 }: {
-    params: PageParams;
+    params: Promise<PageParamsById>;
 }) {
+    const { id, schoolId } = await params;
     const IS_NEW = id === "new";
     const data = IS_NEW
         ? null

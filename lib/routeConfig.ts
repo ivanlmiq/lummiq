@@ -24,6 +24,11 @@ export const STATIC_ROUTES = {
     teams: "/teams",
     integrations: "/integrations",
     billing: "/billing",
+    // public
+    public: "/site",
+    register: "/register",
+    login: "/login",
+    unauthorized: "/forbidden",
 };
 
 export const STATIC_API_AREA = {
