@@ -15,7 +15,7 @@ import {
     SidebarLabel,
 } from "@/components/ui/sidebar";
 import { useSidebar } from "./hooks/use-sidebar";
-import { useGlobalStore } from "@/store/global.store";
+import { StateSchool, useGlobalStore } from "@/store/global.store";
 import type { Session } from "next-auth";
 import type { AuthTeacher } from "@/types/service";
 import type { PermissionColumn } from "../features/permissions/column";
@@ -25,21 +25,24 @@ type Props = {
     authUser: AuthTeacher;
     permissions: PermissionColumn[];
     schoolId: string;
+    school: StateSchool;
 };
 
-export function AppSidebar({ user, authUser, permissions, schoolId }: Props) {
+export function AppSidebar({
+    user,
+    authUser,
+    permissions,
+    schoolId,
+    school,
+}: Props) {
     const { data, ...state } = useSidebar({ schoolId });
 
     useEffect(() => {
-        const school = authUser?.schools.find(
-            (school) => school.id === schoolId
-        );
-
         useGlobalStore.setState({
             user: authUser,
             permissions,
             schoolId,
-            school,
+            school: school as StateSchool,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

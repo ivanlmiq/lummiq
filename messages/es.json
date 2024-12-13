@@ -1,0 +1,11 @@
+{
+    "common": {
+        "Edit": "Editar",
+        "Delete": "Eliminar",
+        "Save": "Guardar",
+        "Cancel": "Cancelar"
+    },
+    "sidebar-header": {
+        "welcome": "Bienvenido 33"
+    }
+}

@@ -3,17 +3,16 @@ import { AuthTeacher } from "@/types/service";
 import type { Action, School, TeacherRole } from "@prisma/client";
 import type { PermissionColumn } from "@/components/features/permissions/column";
 
+export type StateSchool = Pick<School, "id" | "name" | "language">;
+
 export type GlobalStoreState = {
     schoolId: School["id"];
-    school: Pick<School, "id" | "name"> | null;
+    school: StateSchool | null;
     user: AuthTeacher | null;
     theme: string;
     permissions: PermissionColumn[];
     setTheme: (theme: string) => void;
-    setSchool: (
-        schoolId: School["id"],
-        school: Pick<School, "id" | "name">
-    ) => void;
+    setSchool: (schoolId: School["id"], school: StateSchool) => void;
     checkPermission: (action: Action, schema: string) => boolean;
 };
 

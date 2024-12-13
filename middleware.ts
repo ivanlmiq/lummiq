@@ -33,11 +33,11 @@ export async function middleware(req: NextRequest) {
         secret: globalEnv.NextAuthSecret,
     });
 
-    if (
-        url.pathname === STATIC_ROUTES.login ||
-        url.pathname === STATIC_ROUTES.register
-    )
-        return NextResponse.redirect(new URL(STATIC_ROUTES.login, req.url));
+    // if (
+    //     url.pathname === STATIC_ROUTES.login ||
+    //     url.pathname === STATIC_ROUTES.register
+    // )
+    //     return NextResponse.redirect(new URL(STATIC_ROUTES.login, req.url));
 
     if (
         url.pathname === "/" ||

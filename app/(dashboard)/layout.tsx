@@ -5,9 +5,5 @@ export default async function MainLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return (
-        <>
-            <AuthProvider>{children}</AuthProvider>
-        </>
-    );
+    return <AuthProvider>{children}</AuthProvider>;
 }

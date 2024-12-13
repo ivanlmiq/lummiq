@@ -20,6 +20,7 @@ export const getAuthUser = async (id: string): Promise<AuthTeacher> => {
             select: {
                 id: true,
                 name: true,
+                language: true,
             },
             where: schoolWhereClause[
                 user.role as keyof typeof schoolWhereClause

@@ -1,0 +1,11 @@
+{
+    "common": {
+        "Edit": "Edit",
+        "Delete": "Delete",
+        "Save": "Save",
+        "Cancel": "Cancel"
+    },
+    "sidebar-header": {
+        "welcome": "Welcome 12"
+    }
+}
