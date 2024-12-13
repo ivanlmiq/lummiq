@@ -41,6 +41,7 @@ export const SchoolForm = ({ initialData, schoolId }: Props) => {
             address: "",
             email: "",
             phone: "",
+            language: "en",
         },
     });
 

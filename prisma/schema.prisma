@@ -68,7 +68,7 @@ model School {
     logo     String
     website  String
     country  String?
-    language String?
+    language String   @default("en")
     location String?
     socials  String[]
     userId   String

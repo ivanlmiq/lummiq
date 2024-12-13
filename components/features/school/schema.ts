@@ -10,6 +10,7 @@ export const formSchema = z.object({
     email: z.string().email(),
     phone: z.string().min(10),
     address: z.string().optional(),
+    language: z.string().optional(),
 });
 
 export type FormValues = z.infer<typeof formSchema>;

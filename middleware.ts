@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { globalEnv } from "./config/global.env";
 import { STATIC_ROUTES } from "./lib/routeConfig";
 import { TeacherRole } from "@prisma/client";
-import { notFound } from "next/navigation";
 
 const FORBIDDEN_ROUTES = new Map<TeacherRole, string[]>([
     ["PRINCIPAL", []],
