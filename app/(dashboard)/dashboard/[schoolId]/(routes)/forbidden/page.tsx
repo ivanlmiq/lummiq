@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AlertCircle } from "lucide-react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
+import { STATIC_ROUTES } from "@/lib/routeConfig";
 
 export default function Page() {
     return (
@@ -34,11 +35,11 @@ export default function Page() {
                 </h1>
 
                 <p className="text-xl mb-8 text-gray-600 dark:text-gray-300">
-                    Oops! You don't have permission to access this page.
+                    Oops! You don&apos;t have permission to access this page.
                 </p>
 
                 <Button asChild>
-                    <Link href="/">Return Home</Link>
+                    <Link href={STATIC_ROUTES.dashboard}>Return Home</Link>
                 </Button>
             </motion.div>
         </main>

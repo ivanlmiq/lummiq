@@ -9,7 +9,6 @@ import { STATIC_ROUTES } from "@/lib/routeConfig";
 import { AlertModal } from "./alert-modal";
 import { useModule } from "@/hooks/use-module.hook";
 import { useGlobalStore } from "@/store/global.store";
-import type { TeacherRole } from "@prisma/client";
 
 type Props = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
