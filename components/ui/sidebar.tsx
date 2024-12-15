@@ -72,7 +72,7 @@ const SidebarTrigger = React.forwardRef<
 
     return (
         <Button
-            ref={ref}
+            ref={ref as any}
             variant="ghost"
             size="icon"
             className={cn("h-8 w-8", className)}

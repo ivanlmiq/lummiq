@@ -31,9 +31,15 @@ export function TeamSwitcher({
     const { school, setSchool } = useGlobalStore((state) => state);
     const [isPending, startTransition] = React.useTransition();
 
+    const language = school?.language ?? "en";
+
     const setActiveTeam = ({ id, name }: SidebarTeams) => {
         startTransition(() => {
-            setSchool(schoolId, { id, name });
+            setSchool(schoolId, {
+                id,
+                name,
+                language,
+            });
 
             router.push(`${STATIC_ROUTES.dashboard}/${id}/`);
         });

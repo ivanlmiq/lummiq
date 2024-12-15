@@ -13,6 +13,7 @@ export type SidebarTeams = {
     id: string;
     name: string;
     logo: LucideIcon;
+    language: string;
 };
 
 export type SidebarItems = {

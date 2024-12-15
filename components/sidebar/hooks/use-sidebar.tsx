@@ -18,7 +18,7 @@ import type {
 } from "../types/types";
 
 export const useSidebar = ({ schoolId }: { schoolId: string }) => {
-    const { user, checkPermission } = useGlobalStore((state) => state);
+    const { user, school, checkPermission } = useGlobalStore((state) => state);
     const defaultRoute = `${STATIC_ROUTES.dashboard}/${schoolId}`;
 
     const allowedToCreateStudents = checkPermission("CREATE", "students");
@@ -65,10 +65,11 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
 
     const NAV_TEAMS: SidebarTeams[] =
         user?.schools && user.schools.length > 0
-            ? user.schools.map((school) => ({
-                  id: school.id,
-                  name: school.name,
+            ? user.schools.map(({ id, name }) => ({
+                  id,
+                  name,
                   logo: School,
+                  language: school?.language ?? "en",
                   plan: "",
               }))
             : [];

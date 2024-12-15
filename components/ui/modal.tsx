@@ -9,7 +9,7 @@ import {
     DialogTitle,
 } from "./dialog";
 
-type Props = PropsWithChildren &
+type Props = PropsWithChildren<any> &
     ComponentProps<typeof DialogContent> & {
         title: string;
         description: string;
